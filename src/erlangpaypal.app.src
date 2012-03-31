@@ -1,0 +1,12 @@
+{application, erlangpaypal,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { erlangpaypal_app, []}},
+  {env, []}
+ ]}.

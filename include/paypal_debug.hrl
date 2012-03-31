@@ -1,0 +1,5 @@
+-define(USERID, "gordon_1333196781_biz_api1.hypernumbers.com").
+-define(PASSWORD, "1333196806").
+-define(SIGNATURE, "AFcWxV21C7fd0v3bYYYRCpSSRl31AggorharrE-otgZ4va1LG928SvmJ").
+-define(IPADDIE, "69.164.199.121").
+-define(APP_ID, "APP-5XV204960S3290106").
