@@ -20,11 +20,13 @@
 -include("paypal_debug.hrl").
 
 debug() ->
-    Auth = #paypal_auth_hdrs{security_userid    = ?USERID,
-                             security_password  = ?PASSWORD,
-                             security_signature = ?SIGNATURE,
-                             ip_address         = ?IPADDIE,
-                             application_id     = ?APP_ID},
+    Auth = #paypal_auth_hdrs{'X-PAYPAL-SECURITY-USERID'      = ?USERID,
+                             'X-PAYPAL-SECURITY-PASSWORD'    = ?PASSWORD,
+                             'X-PAYPAL-SECURITY-SIGNATURE'   = ?SIGNATURE,
+                             'X-PAYPAL-DEVICE-IPADDRESS'     = ?IPADDIE,
+                             'X-PAYPAL-REQUEST-DATA-FORMAT'  = "NV",
+                             'X-PAYPAL-RESPONSE-DATA-FORMAT' = "NV",
+                             'X-PAYPAL-APPLICATION-ID'       = ?APP_ID},
     Item1 = #paypal_InvoiceItemType{name = "bish",
                                     quantity = 1,
                                     unitPrice = 1
@@ -47,9 +49,11 @@ debug() ->
     create_and_send_inv(Auth, Inv).
 
 create_and_send_inv(Auth, Inv) ->
-    Header = make_headers(Auth),
+    Headers = record_to_kv:to_kv(Auth),
     InvKV = record_to_kv:to_kv(Inv),
-    InvKV2 = encode_inv(InvKV, []).
+    InvKV2 = encode_inv(InvKV, []),
+    io:format("Headers is ~p~nBody is ~p~n", [Headers, InvKV2]),
+    ok.
 
 encode_inv([], Acc) ->
     string:join(lists:reverse(Acc) , "&");
@@ -62,13 +66,15 @@ encode_inv([{K, V} | T], Acc) ->
         _  -> encode_inv(T, [make(K, V) | Acc])
     end.
 
-make(_K, undefined)           -> "";
-make(K, V) when is_list(V)    -> K ++ "=" ++ V;
-make(K, V) when is_integer(V) -> K ++ "=" + integer_to_list(V);
-make(K, V) when is_float(V)   -> K ++ "=" ++ float_to_list(V).
+make(_K, undefined) ->
+    "";
+make(K, V) when is_list(V) ->
+    K ++ "=" ++ V;
+make(K, V) when is_integer(V) ->
+    K ++ "=" + integer_to_list(V);
+make(K, V) when is_float(V) ->
+    K ++ "=" ++ float_to_list(V).
 
-make_headers(Rec) ->
-    ok.
 make_item_list(List) ->
     make_item_l2(List, 0, []).
 

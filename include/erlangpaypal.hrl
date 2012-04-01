@@ -2,11 +2,13 @@
 
 -record(paypal_auth_hdrs,
         {
-          security_userid,
-          security_password,
-          security_signature,
-          ip_address,
-          application_id
+          'X-PAYPAL-SECURITY-USERID',
+          'X-PAYPAL-SECURITY-PASSWORD',
+          'X-PAYPAL-SECURITY-SIGNATURE',
+          'X-PAYPAL-DEVICE-IPADDRESS',
+          'X-PAYPAL-REQUEST-DATA-FORMAT'  = "NV",
+          'X-PAYPAL-RESPONSE-DATA-FORMAT' = "NV",
+          'X-PAYPAL-APPLICATION-ID'
          }).
 
 -record(paypal_RequestEnvelope,

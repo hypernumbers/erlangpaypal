@@ -29,7 +29,7 @@ get_index(Record, Field) ->
           _Error : _ -> exit({error, Record, no_exists, Field})
       end,
      get_index2(Record, Field2).
-no_of_fields(paypal_auth_hdrs) -> 5;
+no_of_fields(paypal_auth_hdrs) -> 7;
 no_of_fields(paypal_RequestEnvelope) -> 2;
 no_of_fields(paypal_CreateAndSendInvoiceRequest) -> 2;
 no_of_fields(paypal_Invoice) -> 19;
@@ -41,11 +41,13 @@ no_of_fields(paypal_CreateAndSendInvoiceResponse) -> 4;
 no_of_fields(Other) -> exit({error, "Invalid Record Name: "++Other}).
 
 
-get_index2(paypal_auth_hdrs, 'security_userid')-> 1;
-get_index2(paypal_auth_hdrs, 'security_password')-> 2;
-get_index2(paypal_auth_hdrs, 'security_signature')-> 3;
-get_index2(paypal_auth_hdrs, 'ip_address')-> 4;
-get_index2(paypal_auth_hdrs, 'application_id')-> 5;
+get_index2(paypal_auth_hdrs, 'X-PAYPAL-SECURITY-USERID')-> 1;
+get_index2(paypal_auth_hdrs, 'X-PAYPAL-SECURITY-PASSWORD')-> 2;
+get_index2(paypal_auth_hdrs, 'X-PAYPAL-SECURITY-SIGNATURE')-> 3;
+get_index2(paypal_auth_hdrs, 'X-PAYPAL-DEVICE-IPADDRESS')-> 4;
+get_index2(paypal_auth_hdrs, 'X-PAYPAL-REQUEST-DATA-FORMAT')-> 5;
+get_index2(paypal_auth_hdrs, 'X-PAYPAL-RESPONSE-DATA-FORMAT')-> 6;
+get_index2(paypal_auth_hdrs, 'X-PAYPAL-APPLICATION-ID')-> 7;
 get_index2(paypal_auth_hdrs,F) -> exit({error, paypal_auth_hdrs, no_exists, F});
 get_index2(paypal_RequestEnvelope, 'detailLevel')-> 1;
 get_index2(paypal_RequestEnvelope, 'errorLanguage')-> 2;
@@ -109,11 +111,13 @@ get_index2(paypal_CreateAndSendInvoiceResponse, 'invoiceNumber')-> 3;
 get_index2(paypal_CreateAndSendInvoiceResponse, 'invoiceURL')-> 4;
 get_index2(paypal_CreateAndSendInvoiceResponse,F) -> exit({error, paypal_CreateAndSendInvoiceResponse, no_exists, F});
 get_index2(Record,_Field) -> exit({error, "Invalid Record Name: "++Record}).
-name_by_index('paypal_auth_hdrs', 1) -> "security_userid";
-name_by_index('paypal_auth_hdrs', 2) -> "security_password";
-name_by_index('paypal_auth_hdrs', 3) -> "security_signature";
-name_by_index('paypal_auth_hdrs', 4) -> "ip_address";
-name_by_index('paypal_auth_hdrs', 5) -> "application_id";
+name_by_index('paypal_auth_hdrs', 1) -> "X-PAYPAL-SECURITY-USERID";
+name_by_index('paypal_auth_hdrs', 2) -> "X-PAYPAL-SECURITY-PASSWORD";
+name_by_index('paypal_auth_hdrs', 3) -> "X-PAYPAL-SECURITY-SIGNATURE";
+name_by_index('paypal_auth_hdrs', 4) -> "X-PAYPAL-DEVICE-IPADDRESS";
+name_by_index('paypal_auth_hdrs', 5) -> "X-PAYPAL-REQUEST-DATA-FORMAT";
+name_by_index('paypal_auth_hdrs', 6) -> "X-PAYPAL-RESPONSE-DATA-FORMAT";
+name_by_index('paypal_auth_hdrs', 7) -> "X-PAYPAL-APPLICATION-ID";
 name_by_index('paypal_RequestEnvelope', 1) -> "detailLevel";
 name_by_index('paypal_RequestEnvelope', 2) -> "errorLanguage";
 name_by_index('paypal_CreateAndSendInvoiceRequest', 1) -> "requestEnvelope";
@@ -169,7 +173,7 @@ name_by_index('paypal_CreateAndSendInvoiceResponse', 3) -> "invoiceNumber";
 name_by_index('paypal_CreateAndSendInvoiceResponse', 4) -> "invoiceURL";
 name_by_index(Record,N) -> exit({error, Record, no_field_at_index, N}).
 
-get_record_info(paypal_auth_hdrs) ->['security_userid', 'security_password', 'security_signature', 'ip_address', 'application_id'];
+get_record_info(paypal_auth_hdrs) ->['X-PAYPAL-SECURITY-USERID', 'X-PAYPAL-SECURITY-PASSWORD', 'X-PAYPAL-SECURITY-SIGNATURE', 'X-PAYPAL-DEVICE-IPADDRESS', 'X-PAYPAL-REQUEST-DATA-FORMAT', 'X-PAYPAL-RESPONSE-DATA-FORMAT', 'X-PAYPAL-APPLICATION-ID'];
 get_record_info(paypal_RequestEnvelope) ->['detailLevel', 'errorLanguage'];
 get_record_info(paypal_CreateAndSendInvoiceRequest) ->['requestEnvelope', 'invoice'];
 get_record_info(paypal_Invoice) ->['merchantEmail', 'payerEmail', 'number', 'merchantInfo', 'itemList', 'currencyCode', 'invoiceData', 'dueDate', 'paymentTerms', 'discountPercentage', 'terms', 'note', 'merchantMemo', 'billingInfo', 'shippingInfo', 'shippingAmount', 'shippingTaxName', 'shippingTaxRate', 'logoUrl'];
